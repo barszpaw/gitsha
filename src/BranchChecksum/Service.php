@@ -4,6 +4,7 @@
 namespace App\BranchChecksum;
 
 
+use App\BranchChecksum\Exception\UnimplementedException;
 use RuntimeException;
 
 class Service implements ServiceInterface
@@ -54,7 +55,7 @@ class Service implements ServiceInterface
 
     function getSha(): string
     {
-        throw new RuntimeException('Metod getSha not implement for "' . $this->serviceName . '"');
+        throw new UnimplementedException('Metod getSha not implement for "' . $this->serviceName . '"');
     }
 
 }
