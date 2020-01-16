@@ -5,9 +5,8 @@ namespace App\BranchChecksum;
 
 
 use App\BranchChecksum\Exception\UnimplementedException;
-use RuntimeException;
 
-class Service implements ServiceInterface
+class Service
 {
     /** @var string */
     protected $serviceName;
@@ -52,10 +51,5 @@ class Service implements ServiceInterface
         $this->branchName = $branchName;
     }
 
-
-    function getSha(): string
-    {
-        throw new UnimplementedException('Metod getSha not implement for "' . $this->serviceName . '"');
-    }
 
 }

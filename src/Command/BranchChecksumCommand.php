@@ -2,6 +2,7 @@
 
 namespace App\Command;
 
+use App\BranchChecksum\Exception\NotFoundException;
 use App\BranchChecksum\Exception\UnknownBranchException;
 use App\BranchChecksum\Exception\UnknownServiceException;
 use App\BranchChecksum\ServiceFactory;
@@ -10,7 +11,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Process\Process;
 
 class BranchChecksumCommand extends Command
 {
@@ -20,9 +20,9 @@ class BranchChecksumCommand extends Command
     protected function configure()
     {
         $this
-
             ->setDescription('Show Checksum of branch for given repo from remote git server (default: github) ')
-            ->setHelp('This command allows you to get sha on given branch in remote git repo.')
+            ->setHelp('This command allows you to get sha on given branch in remote git repo.' . "\n" .
+                "Available remote service is: github.com, api.github.com")
             ->addArgument(
                 'repository',
                 InputArgument::REQUIRED,
@@ -39,9 +39,7 @@ class BranchChecksumCommand extends Command
                 InputOption::VALUE_OPTIONAL,
                 'Service name.',
                 self::DEFAULT_SERVICENAME
-            )
-
-        ;
+            );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -57,14 +55,16 @@ class BranchChecksumCommand extends Command
                 $sha = $service->getSha();
                 $output->writeln($sha);
             }
-        } catch (UnknownServiceException $e){
-           $output->writeln("Unknown service <fg=red>'{$serviceName}'</>");
-           return 1;
+        } catch (UnknownServiceException $e) {
+            $output->writeln("Unknown service <fg=red>'{$serviceName}'</>");
+            return 1;
         } catch (UnknownBranchException $e) {
             $output->writeln("Unknown branch <fg=red>'{$branch}'</>");
             return 1;
+        } catch (NotFoundException $e) {
+            $output->writeln("Service returned message <fg=red>'{$e->getMessage()}'</>");
+            return 1;
         }
-
         return 0;
     }
 }

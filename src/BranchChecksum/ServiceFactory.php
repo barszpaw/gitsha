@@ -5,8 +5,8 @@ namespace App\BranchChecksum;
 
 
 use App\BranchChecksum\Exception\UnknownServiceException;
-use App\BranchChecksum\Product\BitBucket;
-use App\BranchChecksum\Product\GitHub;
+use App\BranchChecksum\VcsService\ApiGitHub;
+use App\BranchChecksum\VcsService\GitHub;
 
 class ServiceFactory
 {
@@ -19,11 +19,12 @@ class ServiceFactory
                 $service->setBranchName($branchName);
                 $service->setRepository($repositoryName);
                 break;
-            case 'bitbucket.com':
-                $service = new BitBucket();
+            case 'api.github.com':
+                $service = new ApiGitHub();
                 $service->setBranchName($branchName);
                 $service->setRepository($repositoryName);
                 break;
+
             default:
                 throw new UnknownServiceException();
         }

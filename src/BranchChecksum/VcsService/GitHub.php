@@ -1,15 +1,16 @@
 <?php
 
 
-namespace App\BranchChecksum\Product;
+namespace App\BranchChecksum\VcsService;
 
 
 use App\BranchChecksum\Exception\UnknownBranchException;
 use App\BranchChecksum\Service;
+use App\BranchChecksum\ServiceInterface;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
-class GitHub extends Service
+class GitHub extends Service implements ServiceInterface
 {
     /** @var string */
     protected $serviceName;
@@ -22,7 +23,10 @@ class GitHub extends Service
         $this->serviceName = 'github.com';
     }
 
-
+    /**
+     * @return string
+     * @throws \App\BranchChecksum\Exception\UnknownBranchException
+     */
     function getSha(): string
     {
         $process = new Process([
@@ -37,7 +41,7 @@ class GitHub extends Service
             throw new ProcessFailedException($process);
         }
         if (empty($output)) {
-            throw new UnknownBranchException('No branch for given repo');
+            throw new UnknownBranchException();
         }
         $output = preg_split('/\s+/', $output);
         return $output[0];
