@@ -5,11 +5,11 @@ namespace App\BranchChecksum\VcsService;
 
 use App\BranchChecksum\Exception\NotFoundException;
 use App\BranchChecksum\Service;
-use App\BranchChecksum\ServiceInterface;
+use App\BranchChecksum\VcsServices;
 use Symfony\Component\HttpClient\HttpClient;
 
 
-class ApiGitHub extends Service implements ServiceInterface
+class ApiGitHub extends Service
 {
     /** @var string */
     protected $serviceName;
@@ -19,7 +19,7 @@ class ApiGitHub extends Service implements ServiceInterface
      */
     public function __construct()
     {
-        $this->serviceName = 'api.github.com';
+        $this->serviceName = VcsServices::API_GITHUB_COM;
     }
 
     /**
@@ -34,8 +34,8 @@ class ApiGitHub extends Service implements ServiceInterface
     function getSha(): string
     {
         $client = HttpClient::create();
-        $response = $client->request('GET', 'https://' . $this->serviceName . '/repos/' . $this->repositoryName .
-            '/git/refs/heads/' . $this->branchName);
+        $response = $client->request('GET',
+            'https://'.$this->serviceName.'/repos/'.$this->repositoryName.'/git/refs/heads/'.$this->branchName);
 
         $statusCode = $response->getStatusCode();
         $content = (object)$response->toArray(false);
@@ -45,6 +45,7 @@ class ApiGitHub extends Service implements ServiceInterface
         } else {
             $content = $content->object['sha'];
         }
+
         return $content;
     }
 }

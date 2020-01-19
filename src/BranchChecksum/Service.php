@@ -3,10 +3,7 @@
 
 namespace App\BranchChecksum;
 
-
-use App\BranchChecksum\Exception\UnimplementedException;
-
-class Service
+abstract class Service implements ServiceInterface
 {
     /** @var string */
     protected $serviceName;
@@ -14,16 +11,6 @@ class Service
     protected $repositoryName;
     /** @var string */
     protected $branchName;
-
-    /**
-     * Service constructor.
-     *
-     * @param string $serviceName
-     */
-    public function __construct(string $serviceName = '')
-    {
-        $this->serviceName = $serviceName;
-    }
 
     /**
      * @param string $serviceName
@@ -51,5 +38,8 @@ class Service
         $this->branchName = $branchName;
     }
 
-
+    /**
+     * @throws \App\BranchChecksum\Exception\UnknownBranchException
+     */
+    abstract public function getSha(): string;
 }

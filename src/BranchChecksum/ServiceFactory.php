@@ -10,24 +10,23 @@ use App\BranchChecksum\VcsService\GitHub;
 
 class ServiceFactory
 {
-    public function create(string $branchName, string $repositoryName, string $serviceName): Service
+
+
+    public function create(string $serviceName): Service
     {
         $service = null;
         switch ($serviceName) {
-            case 'github.com':
+            case VcsServices::GITHUB_COM:
                 $service = new GitHub();
-                $service->setBranchName($branchName);
-                $service->setRepository($repositoryName);
                 break;
-            case 'api.github.com':
+            case VcsServices::API_GITHUB_COM:
                 $service = new ApiGitHub();
-                $service->setBranchName($branchName);
-                $service->setRepository($repositoryName);
                 break;
-
             default:
+
                 throw new UnknownServiceException();
         }
+
         return $service;
     }
 }
