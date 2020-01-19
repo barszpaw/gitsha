@@ -11,7 +11,7 @@ use App\BranchChecksum\ServiceInterface;
 use App\BranchChecksum\VcsServices;
 use Symfony\Component\Process\Process;
 
-class GitHub extends Service implements ServiceInterface
+class GitHub extends Service
 {
     /** @var string */
     protected $serviceName;
