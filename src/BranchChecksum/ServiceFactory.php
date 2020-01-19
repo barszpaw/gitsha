@@ -23,7 +23,6 @@ class ServiceFactory
                 $service = new ApiGitHub();
                 break;
             default:
-
                 throw new UnknownServiceException();
         }
 
