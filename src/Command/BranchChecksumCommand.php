@@ -19,7 +19,9 @@ class BranchChecksumCommand extends Command
 
     protected function configure()
     {
-        $this->setDescription('Show Checksum of branch for given repo from remote git server (default: github) ')->setHelp('This command allows you to get sha on given branch in remote git repo.'."\n"."Available remote service is: github.com, api.github.com")->addArgument('repository',
+        $this->setDescription('Show Checksum of branch for given repo from remote git server (default: github) ')
+            ->setHelp('This command allows you to get sha on given branch in remote git repo.'."\n"."Available remote service is: github.com, api.github.com")
+            ->addArgument('repository',
             InputArgument::REQUIRED, 'Repository name eg.: php-fig/log')->addArgument('branch', InputArgument::REQUIRED,
             'Branch name eg.: master')->addOption('service', 's', InputOption::VALUE_OPTIONAL, 'Service name.',
             self::DEFAULT_SERVICENAME);
