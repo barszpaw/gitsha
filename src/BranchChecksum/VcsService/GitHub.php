@@ -7,7 +7,6 @@ namespace App\BranchChecksum\VcsService;
 use App\BranchChecksum\Exception\NotFoundException;
 use App\BranchChecksum\Exception\UnknownBranchException;
 use App\BranchChecksum\Service;
-use App\BranchChecksum\ServiceInterface;
 use App\BranchChecksum\VcsServices;
 use Symfony\Component\Process\Process;
 
